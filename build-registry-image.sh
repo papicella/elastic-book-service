@@ -1,0 +1,1 @@
+pack build pasapples/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./
