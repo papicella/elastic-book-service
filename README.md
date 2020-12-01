@@ -15,7 +15,7 @@ This demo shows how to build an spring boot APi using Open API. Follow the steps
 
 ```bash 
 $ git clone https://github.com/papicella/elastic-book-service.git
-$ cd 
+$ cd elastic-book-service
 ```
 
 - Login to docker hub as follows
@@ -32,7 +32,7 @@ _Note: This will take some time for the first build_
 $ pack build DOCKER-HUB-USER/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./
 ```
 
-- Make sure your connected to your K8s cluster and run the following commands to create a K8s Secret and ConfigMap. Please replace values as shown below
+- Make sure your connected to your K8s cluster and run the following commands to create a K8s Secret and ConfigMap. Please replace values as shown in the list below
 
 * APM-TOKEN
 * APM-SERVER-URL
@@ -45,12 +45,74 @@ kubectl create configmap apm-agent-details --from-literal=service_name=elastic-b
 --from-literal=server_urls=https://APM-SERVER-URL:APM-SERVER-PORT
 ```
 
-- Now we can deploy our service to K8s using the K8s YAML for deployment as follows
+- Now we can deploy our service to K8s using the K8s YAML for deployment as follows. Replace DOCKER_HUB-USER with your user you used with pack CLI
 
 **YAML**
 
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elastic-book-service
+spec:
+  selector:
+    matchLabels:
+      app: elastic-book-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: elastic-book-service
+    spec:
+      containers:
+        - name: elastic-book-service
+          image: DOCKER_HUB-USER/elastic-book-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+          - name: ELASTIC_APM_ENABLE_LOG_CORRELATION
+            value: "true"
+          - name: ELASTIC_APM_CAPTURE_JMX_METRICS
+            value: >-
+              object_name[java.lang:type=GarbageCollector,name=*] attribute[CollectionCount:metric_name=collection_count] attribute[CollectionTime:metric_name=collection_time],
+              object_name[java.lang:type=Memory] attribute[HeapMemoryUsage:metric_name=heap]
+          - name: ELASTIC_APM_SERVER_URLS
+            valueFrom:
+              configMapKeyRef:
+                name: apm-agent-details
+                key: server_urls
+          - name: ELASTIC_APM_SERVICE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: apm-agent-details
+                key: service_name
+          - name: ELASTIC_APM_APPLICATION_PACKAGES
+            valueFrom:
+              configMapKeyRef:
+                name: apm-agent-details
+                key: application_packages
+          - name: ELASTIC_APM_SECRET_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: apm-token-secret
+                key: secret_token
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elastic-book-service-lb
+  labels:
+    name: elastic-book-service-lb
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: elastic-book-service
+  type: LoadBalancer
 ```
 
 **Deploy as Follows** 
