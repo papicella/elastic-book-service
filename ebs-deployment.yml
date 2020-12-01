@@ -19,6 +19,12 @@ spec:
           ports:
             - containerPort: 8080
           env:
+          - name: ELASTIC_APM_ENABLE_LOG_CORRELATION
+            value: "true"
+          - name: ELASTIC_APM_CAPTURE_JMX_METRICS
+            value: >-
+              object_name[java.lang:type=GarbageCollector,name=*] attribute[CollectionCount:metric_name=collection_count] attribute[CollectionTime:metric_name=collection_time],
+              object_name[java.lang:type=Memory] attribute[HeapMemoryUsage:metric_name=heap]
           - name: ELASTIC_APM_SERVER_URLS
             valueFrom:
               configMapKeyRef:
