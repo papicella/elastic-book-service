@@ -24,7 +24,7 @@ $ cd elastic-book-service
 $ docker login -u DOCKER-HUB-USER -p PASSWD
 ```
 
-- Package using Cloud Native Buildpacks. Download pack CLI from here
+- Package using Cloud Native Buildpacks.
 
 _Note: This will take some time for the first build_
 
