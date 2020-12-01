@@ -30,7 +30,8 @@ $ docker login -u DOCKER-HUB-USER -p PASSWD
 _Note: This will take some time for the first build_
 
 ```bash
-$ pack build DOCKER-HUB-USER/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./
+$ ./mvnw -D skipTests package
+$ pack build DOCKER-HUB-USER/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./target/elasticbookservice-0.0.1-SNAPSHOT.jar
 ```
 
 - Make sure your connected to your K8s cluster and run the following commands to create a K8s Secret and ConfigMap. Please replace values as shown in the list below
