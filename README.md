@@ -8,6 +8,7 @@ This demo shows how to build a spring boot APi using Open API. Follow the steps 
 
 * HTTPie installed - https://httpie.io/
 * pack CLI - https://buildpacks.io/docs/tools/pack/
+* Elastic Cloud deployment with APM - https://cloud.elastic.co
 
 ## Steps
 
