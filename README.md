@@ -1,6 +1,6 @@
 # Elastic Book Service - APM Demo
 
-This demo shows how to build an spring boot APi using Open API. Follow the steps below to get this deployed to K8s and setup to be traced by Elastic APM
+This demo shows how to build a spring boot APi using Open API. Follow the steps below to get this deployed to K8s and setup to be traced by Elastic APM
 
 **Note: This demo is using a simple micro service deployed to K8s and we use Elastic Cloud (ESS) for our APM Server and Elasticsearch cluster. In this example we use GKE as the K8s provider**
 
@@ -24,7 +24,7 @@ $ cd elastic-book-service
 $ docker login -u DOCKER-HUB-USER -p PASSWD
 ```
 
-- Package using Cloud Native Buildpacks.
+- Package using Cloud Native Buildpacks. You could also use "kpack" to build images from withing K8s see this link for how [https://github.com/pivotal/kpack]. In the example below we just use pack CLI rather then kpack 
 
 _Note: This will take some time for the first build_
 
