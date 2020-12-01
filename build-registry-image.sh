@@ -1,1 +1,1 @@
-pack build pasapples/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./
+pack build pasapples/elastic-book-service:1.0 --builder paketobuildpacks/builder:base --publish --path ./target/elasticbookservice-0.0.1-SNAPSHOT.jar
