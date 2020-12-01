@@ -129,7 +129,7 @@ NAME                      TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(
 elastic-book-service-lb   LoadBalancer   10.131.253.69    35.197.186.117   80:30220/TCP     5d23h
 ```
 
-- Run a script as follows to generate some basic traffic to the elastic book service
+- Run a script as follows to generate some basic traffic to the elastic book service. The script generate-traffic.sh is in the root folder of the cloned project
 
 ```http
 $ ./generate-traffic.sh
